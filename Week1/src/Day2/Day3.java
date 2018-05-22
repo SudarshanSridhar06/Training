@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 //Program to print N fibonacci numbers
 
-public class Ex3 {
+public class Day3 {
     
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
