@@ -38,7 +38,7 @@ class Employee{
     }
 }
 
-public class AnonymousClass {
+public class AnonymousClassMain {
     
     public static void main(String[] args){
         ArrayList<Employee> employees = new ArrayList<>();

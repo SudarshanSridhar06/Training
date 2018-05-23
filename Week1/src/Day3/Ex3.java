@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 
 class Employee{
-    private String name;
-    private char gender;
+    private final String name;
+    private final char gender;
     private double income;
     private double tax;
 

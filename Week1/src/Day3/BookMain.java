@@ -11,8 +11,8 @@ package Day3;
  */
 public class BookMain {
     
-    private String name;
-    private Author[] authors;
+    private final String name;
+    private final Author[] authors;
     private double price;
     private int qtyInStock;
 

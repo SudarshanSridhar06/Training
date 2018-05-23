@@ -8,8 +8,8 @@ import java.util.*;
 
 class Animal{
     private static int count;
-    private String type;
-    private String name;
+    private final String type;
+    private final String name;
     
     
     static{

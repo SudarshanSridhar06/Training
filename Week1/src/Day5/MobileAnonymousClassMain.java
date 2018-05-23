@@ -27,7 +27,7 @@ class Mobile{
     }
 }
 
-public class MobileAnonymousClass {
+public class MobileAnonymousClassMain {
     
     public static void main(String[] args){
         List<Mobile> mobiles = new ArrayList<>();

@@ -11,9 +11,9 @@ package Day3;
  */
 public class Author {
     
-    private String name;
+    private final String name;
     private String email;
-    private char gender;
+    private final char gender;
 
     public Author(String name, String email, char gender) {
         this.name = name;
