@@ -91,6 +91,7 @@ class Dog extends Mammal{
         return false;
     }
        
+    @Override
     public void display(){
         System.out.println("Dog - Mammal \t");
         sound();locomotion();food();property();
@@ -121,6 +122,7 @@ class Cow extends Mammal implements Herbivore{
         return false;
     }
     
+    @Override
     public void display(){
         System.out.println("Cow - Mammal \t");
         sound();locomotion();food();property();
@@ -150,6 +152,7 @@ class Bat extends Mammal{
         return false;
     }
     
+    @Override
     public void display(){
         System.out.println("Bat - Mammal \t");
         sound();locomotion();food();property();
@@ -179,6 +182,7 @@ class Ostrich extends Birds implements cannotFly{
         return false;
     }
     
+    @Override
     public void display(){
         System.out.println("Ostrich - Bird \t");
         sound();locomotion();food();property();
@@ -203,6 +207,7 @@ class Parrot extends Birds implements Herbivore {
         return true;
     }
     
+    @Override
     public void display(){
         System.out.println("Parrot - Bird \t");
         sound();locomotion();food();property();
