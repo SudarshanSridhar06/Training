@@ -32,16 +32,18 @@ public class Car {
         return price;
     }
 
-    public void setPrice(double price) {
+    public Car setPrice(double price) {
         this.price = price;
+        return this;
     }
 
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public Car setColor(String color) {
         this.color = color;
+        return this;
     }
     
     public double getSalePrice(){

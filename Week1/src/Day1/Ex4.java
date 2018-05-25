@@ -24,8 +24,9 @@ public class Ex4 {
         int y = sc.nextInt();
         int power = 0;
         
-        while(Math.pow(x,power) <= y)
+        while (Math.pow(x, power) <= y) {
             power++;
+        }
         
         System.out.println("The smallest power of "+ x + " greater than " + y + " is : " + power);
     }

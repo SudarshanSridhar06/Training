@@ -15,7 +15,7 @@ class Factorial implements Iterable{
     private int upperlimit;
     private int factorials[];
     
-    private void setFactorials(){
+    private Factorial setFactorials(){
         int temp = 1;
         for(int i = 1; i <= lowerlimit; i++){
             temp *= i;
@@ -25,6 +25,7 @@ class Factorial implements Iterable{
             factorials[i] = temp;
             temp *= ++count;
         }
+        return this;
     }
 
     public Factorial(int lowerlimit, int upperlimit) {
@@ -34,10 +35,10 @@ class Factorial implements Iterable{
         setFactorials();
     } 
     
-    public boolean setValues(int upper, int lower){
+    public Factorial setValues(int upper, int lower){
         this.lowerlimit = lower;
         this.upperlimit = upper;
-        return true;
+        return this;
     }
     
     @Override

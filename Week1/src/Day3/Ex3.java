@@ -37,16 +37,18 @@ class Employee{
         return income;
     }
 
-    public void setIncome(double income) {
+    public Employee setIncome(double income) {
         this.income = income;
+        return this;
     }
 
     public double getTax() {
         return tax;
     }
 
-    public void setTax(double tax) {
+    public Employee setTax(double tax) {
         this.tax = tax;
+        return this;
     }
     
     public void display(double amount){

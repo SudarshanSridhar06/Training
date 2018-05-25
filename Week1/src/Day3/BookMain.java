@@ -10,7 +10,7 @@ package Day3;
  * @author cb-sudarshan
  */
 public class BookMain {
-    
+
     private final String name;
     private final Author[] authors;
     private double price;
@@ -21,13 +21,13 @@ public class BookMain {
         this.name = name;
         this.price = price;
         this.qtyInStock = qtyInStock;
-        this.authors =new Author[authors.length];
-        for(Author a : authors)
+        this.authors = new Author[authors.length];
+        for (Author a : authors) {
             this.authors[iter++] = a;
+        }
     }
-    
+
     public BookMain(String name, Author author, double price, int qtyInStock) {
-        int iter = 0;
         this.name = name;
         this.price = price;
         this.qtyInStock = qtyInStock;
@@ -38,7 +38,7 @@ public class BookMain {
     public String getName() {
         return name;
     }
-    
+
     public Author[] getAuthors() {
         return authors;
     }
@@ -47,37 +47,41 @@ public class BookMain {
         return price;
     }
 
-    public void setPrice(double price) {
+    public BookMain setPrice(double price) {
         this.price = price;
+        return this;
     }
 
     public int getQtyInStock() {
         return qtyInStock;
     }
 
-    public void setQtyInStock(int qtyInStock) {
+    public BookMain setQtyInStock(int qtyInStock) {
         this.qtyInStock = qtyInStock;
+        return this;
     }
-    
-    public String toDisplay(){
+
+    public String toDisplay() {
         String temp = "";
-        for(Author author : authors){
+        for (Author author : authors) {
             temp += author.toDisplay();
             temp += ", ";
         }
-        return " Name : " + this.name + " by " + temp + " \n Price : $" + this.price;  
+        return " Name : " + this.name + " by " + temp + " \n Price : $" + this.price;
     }
-    
-    public static void main(String[] args){
-        
+
+    public static void main(String[] args) {
+
         Author[] author = new Author[2];
         author[0] = new Author("R.K. Narayan", "rknarayan@gmail.com", 'M');
         System.out.println(author[0].toDisplay());
         author[0].setEmail("rknarayan@hotmail.com");
         System.out.println(author[0].toDisplay());
-        
+
         author[1] = new Author("J.K. Narayani", "jknarayani@gmail.com", 'F');
-        BookMain book = new BookMain("The Wall",author,1200,2000);
+        BookMain book = new BookMain("The Wall", author, 1200, 2000);
+        book.authors[1] = new Author("J.K. Nara", "jknani@gmail.com", 'F');
         System.out.println(book.toDisplay());
     }
+
 }

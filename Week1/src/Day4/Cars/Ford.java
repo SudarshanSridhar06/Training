@@ -27,8 +27,9 @@ public class Ford extends Car{
         return manufacturer_discount;
     }
 
-    public void setManufacturer_discount(int manufacturer_discount) {
+    public Car setManufacturer_discount(int manufacturer_discount) {
         this.manufacturer_discount = manufacturer_discount;
+        return this;
     }
 
     @Override

@@ -39,24 +39,27 @@ public class Student {
         return name;
     }
 
-    public void setName(String name) {
+    public Student setName(String name) {
         this.name = name;
+        return this;
     }
 
     public boolean isGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public Student setGender(boolean gender) {
         this.gender = gender;
+        return this;
     }
 
     public Subjects getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(Subjects subjects) {
+    public Student setSubjects(Subjects subjects) {
         this.subjects = subjects;
+        return this;
     }
 
     public void display(){

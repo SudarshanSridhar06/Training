@@ -32,22 +32,24 @@ public class Subjects {
         return subject_name;
     }
 
-    public void setSubject_name(String[] subject_name) {
+    public Subjects setSubject_name(String[] subject_name) {
         int iter=0;
         for(String s:subject_name)
             this.subject_name[iter++] = s;
+        return this;
     }
 
     public float[] getMarks() {
         return marks;
     }
 
-    public void setMarks(float[] marks) {
+    public Subjects setMarks(float[] marks) {
         int iter = 0;
         for(Float f:marks){
             this.marks[iter++] = f;
             //System.out.println(marks[iter-1] +"set");
         }
+        return this;
     }
     
     public void display(){

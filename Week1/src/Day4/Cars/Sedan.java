@@ -21,8 +21,9 @@ public class Sedan extends Car{
         return length;
     }
 
-    public void setLength(int length) {
+    public Car setLength(int length) {
         this.length = length;
+        return this;
     }
     
     @Override
