@@ -26,6 +26,8 @@ public class Invoice {
     public void display(){
         System.out.println("\nInvoice No : " + this.invoive_no + " Customer Name : " + this.customer.getName());
         System.out.println("Total Amount : " + this.total_amount + " Employee Name : " + this.employee.getName());
+        System.out.println("Service Vehicle : " + this.customer.getVehicle().getType() + " Service Type : " + this.customer.getVehicle().getService() );
+        System.out.println("Customer Id : " + this.customer.getCustomer_id() + " Employee id : " + this.employee.getEmployee_id());
     }
     
 }

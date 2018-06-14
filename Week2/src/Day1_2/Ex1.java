@@ -19,7 +19,7 @@ public class Ex1 {
         String[] words = {"Hello", "World", "Good", "Hey", "Excellent",
         "Great", "Nice", "Food", "Eat", "Raw"};
         
-        ArrayList<String>[] lists = (ArrayList<String>[])new ArrayList[10];
+        ArrayList<String>[] lists = new ArrayList[10];
         
         for(String word : words){
             int length = word.length();

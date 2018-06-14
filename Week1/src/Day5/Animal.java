@@ -10,68 +10,59 @@ import java.util.*;
  *
  * @author cb-sudarshan
  */
-interface Animals {
+abstract class Animals {
     
-    public void locomotion();
-    public void property();
-    public void food();
-    public boolean isHerbivore();
-    public boolean canFly();
-    public void display();
+    private boolean locomotion;
+    private boolean property;
+    private boolean food;
     
+    //locomotion -> TRUE = By Land -> FALSE = Flying
+    //property -> TRUE = Give Birth -> FALSE = LayEggs
+    //food -> TRUE = By mouth -> FALSE = By beaks
+    public Animals(boolean locomotion, boolean property, boolean food){
+        this.locomotion = locomotion;
+        this.property = property; 
+        this.food = food;
+    }
+    
+    abstract public void display();
+    abstract public void sound();
+      
 }
 
 interface Herbivore {
-    public void food();
 }
 
-interface cannotFly{
-    public void locomotion();
-    
-}
-
-abstract class Mammal implements Animals{
-    
-    @Override
-    public void property(){
-        System.out.print("Can give birth!, Can secrete milk \t");
-    }
-
-    @Override
-    public void locomotion() {
-        System.out.print("By four legs on ground \t");
-    }
-
-    @Override
-    public void food() {
-        System.out.print("Eat anything through mouth \t");
-    }
-    
-    abstract public void sound();
+interface CanFly{
     
     
 }
 
-abstract class Birds implements Animals{
+abstract class Mammal extends Animals{
 
-    @Override
-    public void locomotion() {
-        System.out.print("Through air using wings \t");
-    }
-
-    @Override
-    public void property() {
-        System.out.print("Lay eggs \t");
+    public Mammal(){
+        super(true, true,true);
     }
     
-    @Override
-    public void food() {
-        System.out.print("Eat anything through beaks \t");
+    public Mammal(boolean value, boolean value1, boolean value2){
+        super(value, value1, value2);
     }
     
-    abstract public void sound();
+
+}
+
+abstract class Birds extends Animals{
+
+    public Birds(){
+        super(false, false, false);
+    }
+    
+    public Birds(boolean value, boolean value1, boolean value2){
+        super(value, value1, value2);
+    }
     
 }
+
 
 
 class Dog extends Mammal{
@@ -80,21 +71,11 @@ class Dog extends Mammal{
     public void sound() {
         System.out.print("Barking..\t");
     }
-
-    @Override
-    public boolean isHerbivore() {
-        return false;
-    }
-
-    @Override
-    public boolean canFly() {
-        return false;
-    }
        
     @Override
     public void display(){
         System.out.println("Dog - Mammal \t");
-        sound();locomotion();food();property();
+        sound();
         
     }
     
@@ -108,59 +89,33 @@ class Cow extends Mammal implements Herbivore{
     }
     
     @Override
-    public void food(){
-        System.out.print("Herbivore - Eats only greens through mouth \t");
-    }
-
-    @Override
-    public boolean isHerbivore() {
-        return true;
-    }
-
-    @Override
-    public boolean canFly() {
-        return false;
-    }
-    
-    @Override
     public void display(){
         System.out.println("Cow - Mammal \t");
-        sound();locomotion();food();property();
+        sound();
         
     }
 }
 
-class Bat extends Mammal{
+class Bat extends Mammal implements CanFly{
+    
+    public Bat(){
+        super(false, false, false);
+    }
     
     @Override
     public void sound() {
         System.out.print("Screeching.. \t");
     }
-    
-    @Override
-    public void locomotion() {
-        System.out.print("Through air using wings \t");
-    }
 
-    @Override
-    public boolean isHerbivore() {
-        return false;
-    }
-
-    @Override
-    public boolean canFly() {
-        return false;
-    }
-    
     @Override
     public void display(){
         System.out.println("Bat - Mammal \t");
-        sound();locomotion();food();property();
+        sound();
         
     }
 }
 
-class Ostrich extends Birds implements cannotFly{
+class Ostrich extends Birds implements CanFly{
 
     @Override
     public void sound() {
@@ -168,59 +123,33 @@ class Ostrich extends Birds implements cannotFly{
     }
     
     @Override
-    public void locomotion() {
-        System.out.print("Can't fly - By four legs on ground \t");
-    }
-
-    @Override
-    public boolean isHerbivore() {
-        return false;
-    }
-
-    @Override
-    public boolean canFly() {
-        return false;
-    }
-    
-    @Override
     public void display(){
         System.out.println("Ostrich - Bird \t");
-        sound();locomotion();food();property();
+        sound();
         
     }
 }
 
-class Parrot extends Birds implements Herbivore {
+class Parrot extends Birds implements Herbivore, CanFly {
 
     @Override
     public void sound() {
         System.out.print("Talking.. \t");
     }
-
-    @Override
-    public boolean isHerbivore() {
-        return true;
-    }
-
-    @Override
-    public boolean canFly() {
-        return true;
-    }
     
     @Override
     public void display(){
         System.out.println("Parrot - Bird \t");
-        sound();locomotion();food();property();
+        sound();
         
     }
+    
 }
 
 class Animal {
     
     public static void main(String[] args){
         List<Animals> animals = new ArrayList<>();
-        List<Animals> herbivores = new ArrayList<>();
-        List<Animals> flyingAnimals= new ArrayList<>();
         
         boolean continu = true;
         Scanner sc = new Scanner(System.in);
@@ -249,30 +178,29 @@ class Animal {
                     
             }
             System.out.println("Want to create another animal? Y/N");
-            continu = sc.next().compareTo("Y") == 0 ;
+            continu = sc.next().equals("Y") ;
         }
         
         System.out.println("\n Animals created :");
         for(Animals animal : animals){
             animal.display();
-            System.out.println("\n");
-            if(animal.canFly())
-                flyingAnimals.add(animal);
-            if(animal.isHerbivore())
-                herbivores.add(animal);
-            
+            System.out.println("\n");        
         }
         
         System.out.println("\n\n Herbivores :");
-        for(Animals animal : herbivores)
+        for(Animals animal : animals)
         {   
-            animal.display();
-            System.out.println("\n");
+            if(animal instanceof Herbivore){
+                animal.display();
+                System.out.println("\n");
+            }
         }
         System.out.println("\n\n Animals that can fly :");
-        for(Animals animal : flyingAnimals){
-            animal.display(); 
-            System.out.println("\n");
+        for(Animals animal : animals){
+            if(animal instanceof CanFly){
+                animal.display(); 
+                System.out.println("\n");
+            }
         }
         
     }

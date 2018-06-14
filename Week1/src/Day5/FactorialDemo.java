@@ -10,10 +10,36 @@ import java.util.*;
  *
  * @author cb-sudarshan
  */
-class Factorial implements Iterable{
+class Factorial{
     private int lowerlimit;
     private int upperlimit;
     private int factorials[];
+    private FactorialIterator fi;
+    
+    class FactorialIterator implements Iterator {
+        private int currentIndex = 0;
+        
+        @Override
+            public boolean hasNext() {
+                return currentIndex < upperlimit ;
+            }
+
+        @Override
+            public Integer next() {
+                return factorials[currentIndex++];
+            }
+            
+        public void resetIndex(){
+            this.currentIndex = 0;
+        }    
+        
+//        @Override
+//            public Iterator iterator(){
+//            return new FactorialIterator();
+//                
+//            }
+        
+    }
     
     private Factorial setFactorials(){
         int temp = 1;
@@ -49,24 +75,50 @@ class Factorial implements Iterable{
         return fact;
     }
     
-    @Override
-    public Iterator<Integer> iterator() {
-        Iterator<Integer> iter = new Iterator() {
-
-            private int currentIndex = 0;
-
-            @Override
-            public boolean hasNext() {
-                return currentIndex < upperlimit ;
+    
+    public static int getFactorial(int number){
+        if(number <= 1)
+            return 1;
+        else{
+            int temp = 2;
+            for(int i = temp+1; i <= number; i++){
+                temp *= i;
             }
-
-            @Override
-            public Integer next() {
-                return factorials[currentIndex++];
-            }
-
-        };
-        return iter;
+            return temp;
+        }
+    }
+    
+//    @Override
+//    public Iterator<Integer> iterator() {
+//        Iterator<Integer> iter = new Iterator() {
+//
+//            private int currentIndex = 0;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return currentIndex < upperlimit ;
+//            }
+//
+//            @Override
+//            public Integer next() {
+//                return factorials[currentIndex++];
+//            }
+//
+//        };
+//        return iter;
+//    }
+    
+    public Iterator iterator(){
+//        if(fi == null){
+//            fi = new FactorialIterator();
+//            return fi;
+//        }
+//        else{
+//            fi.resetIndex();
+//            return fi;
+//        }
+          fi = new FactorialIterator();
+          return fi;
     }
 }
 
@@ -75,9 +127,11 @@ public class FactorialDemo {
     public static void main(String[] args){
         Factorial f = new Factorial(1, 10);
         Iterator iter = f.iterator();
-        while(iter.hasNext()){
-            System.out.print(iter.next() + "  ");
-        }
+//        while(iter.hasNext()){
+//            System.out.print(iter.next() + "  ");
+//        }
+        System.out.println(f);
     }
     
 }
+            
