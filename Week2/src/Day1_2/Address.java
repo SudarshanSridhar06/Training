@@ -16,6 +16,10 @@ public class Address {
     private String state;
     private int pincode;
     
+    public Address(){
+        
+    }
+    
     public Address(int no, String street, String city, String state, int pincode){
         this.door_no = no;
         this.street = street;

@@ -18,7 +18,7 @@ public class Phone {
     private String number;
     private PhoneType type;
     
-    Phone(String number, String type){
+    public Phone(String number, String type){
         this.number = number;
         this.type = PhoneType.valueOf(type.toUpperCase());
     }

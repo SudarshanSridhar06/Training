@@ -5,6 +5,8 @@
  */
 package Day1_2;
 
+import com.opencsv.CSVReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -78,7 +80,7 @@ public class PhoneDirectory {
         }
     }
 
-    public static void display(HashMap<String, List<Person>> persons) {
+    public static void display(HashMap<String, List<Person>> persons) {     
         Set<String> keys = persons.keySet();
         List<Person> per = new ArrayList<>();
         for (String key : keys) {
@@ -89,7 +91,7 @@ public class PhoneDirectory {
         }
     }
 
-    public static void displayMenu(HashMap<String, List<Person>> persons) {
+    public static void displayMenu(HashMap<String, List<Person>> persons){
         boolean choic;
         do {
             //System.out.print("\033[H\033[2J");
@@ -124,10 +126,10 @@ public class PhoneDirectory {
         phones.add(new Phone("1234567899", "HOME"));
         phones.add(new Phone("9876543212", "Work"));
         phones.add(new Phone("1199882233", "mobile"));
-        phones.add(new Phone("5647382910", "Mobile"));
+        phones.add(new Phone("5647382910", "home"));
         phones.add(new Phone("1289341211", "home"));
         phones.add(new Phone("9876512231", "Work"));
-        phones.add(new Phone("1029143212", "home"));
+        phones.add(new Phone("1029143212", "mobile"));
         phones.add(new Phone("9833121212", "Work"));
         phones.add(new Phone("9871221211", "mobile"));
         phones.add(new Phone("1231312312", "mobile"));
@@ -181,7 +183,7 @@ public class PhoneDirectory {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         HashMap<String, List<Person>> persons = new HashMap<>();
         PhoneDirectory.createPersons(persons);

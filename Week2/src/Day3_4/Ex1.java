@@ -28,13 +28,11 @@ public class Ex1 {
         } catch (NoSuchFileException ex) {
 
             System.err.println("Input should be a Folder!!!");
+            return null;
+            //System.exit(0);
 
-        } catch (IOException | DirectoryIteratorException x) {
-
-            System.err.println(x);
-            throw x;
-
-        }
+        } 
+        
         for (Path path : stream) {
 
             File file = path.toFile();
@@ -50,7 +48,7 @@ public class Ex1 {
 
                 }
 
-                mapToCountFileExtensions.put(fileExtension, temp++);
+                mapToCountFileExtensions.put(fileExtension, temp);
 
             } else if (file.isDirectory()) {
 
@@ -65,68 +63,65 @@ public class Ex1 {
 
     public static void moveFiles(Path source, Path destination, HashMap<String, Integer> mapToMoveFiles) throws Exception {
 
-        DirectoryStream<Path> stream = null;
+        DirectoryStream<Path> srcStream = null;
         try {
 
-            stream = Files.newDirectoryStream(source);
+            srcStream = Files.newDirectoryStream(source);
 
         } catch (NoSuchFileException ex) {
 
             System.err.println("Input should be a Folder!!!");
+            return ;
+            //System.exit(0);
 
         }
-        for (Path path : stream) {
+        for (Path srcPath : srcStream) {
 
-            File file = path.toFile();
-            if (file.isFile() && !file.isHidden()) {
+            File srcFile = srcPath.toFile();
+            if (srcFile.isFile() && !srcFile.isHidden()) {
 
-                String dest = destination.toString();
-                StringBuilder destbuilder = new StringBuilder(dest);
+                StringBuilder destbuilder = new StringBuilder(destination.toString());
                 destbuilder.append("/");
-                String filename = file.getName().substring(0, file.getName().lastIndexOf("."));
-                String fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+                String destFilename = srcFile.getName().substring(0, srcFile.getName().lastIndexOf("."));
+                String destFileExtension = srcFile.getName().substring(srcFile.getName().lastIndexOf(".") + 1);
 
-                if (mapToMoveFiles.containsKey(filename)) {
+                if (mapToMoveFiles.containsKey(destFilename)) {
 
                     //dest += filename + "-" + mapToMoveFiles.get(filename) + "." + fileExtension;
                     //destbuilder.append(filename + "-" + mapToMoveFiles.get(filename) + "." + fileExtension);
-                    destbuilder.append(filename);
+                    destbuilder.append(destFilename);
                     destbuilder.append("-");
-                    destbuilder.append(mapToMoveFiles.get(filename));
+                    destbuilder.append(mapToMoveFiles.get(destFilename));
                     destbuilder.append(".");
-                    destbuilder.append(fileExtension);
-                    mapToMoveFiles.put(filename, mapToMoveFiles.get(filename) + 1);
+                    destbuilder.append(destFileExtension);
+                    mapToMoveFiles.put(destFilename, mapToMoveFiles.get(destFilename) + 1);
 
                 } else {
 
                     //dest += file.getName();
-                    destbuilder.append(file.getName());
-                    mapToMoveFiles.put(filename, 1);
+                    destbuilder.append(srcFile.getName());
+                    mapToMoveFiles.put(destFilename, 1);
 
                 }
                 
-                dest = destbuilder.toString();
-                Path target = Paths.get(dest);
+                Path target = Paths.get(destbuilder.toString());
 
                 try {
 
-                    Files.move(Paths.get(file.getAbsolutePath()), target);
+                    Files.move(Paths.get(srcFile.getAbsolutePath()), target);
 
                 } catch (FileAlreadyExistsException ex) {
 
-                    mapToMoveFiles.put(filename, 2);
-                    //dest += filename + "-1." + fileExtension;
-                    destbuilder.append(filename);
-                    destbuilder.append("-1.");
-                    destbuilder.append(fileExtension);
-                    dest = destbuilder.toString();
-                    Files.move(Paths.get(file.getAbsolutePath()), Paths.get(dest));
+                    mapToMoveFiles.put(destFilename, 2);
+                    destbuilder.insert(destbuilder.indexOf("."), "-1");
+
+                    Files.move(Paths.get(srcFile.getAbsolutePath()), Paths.get(destbuilder.toString()));
 
                 }
 
-            } else if (file.isDirectory()) {
+            } else if (srcFile.isDirectory()) {
 
-                moveFiles(Paths.get(file.getAbsolutePath()), destination, mapToMoveFiles);
+                moveFiles(Paths.get(srcFile.getAbsolutePath()), destination, mapToMoveFiles);
 
             }
         }
@@ -139,8 +134,9 @@ public class Ex1 {
         HashMap<String, Integer> mapToMoveFiles = new HashMap<>();
 
         mapToCountFileExtensions = countFilesExtension("/Users/cb-sudarshan/Training/Week2/build/classes", mapToCountFileExtensions);
-        System.out.println(mapToCountFileExtensions);
-
+        if(mapToCountFileExtensions!=null){
+            System.out.println(mapToCountFileExtensions);
+        }
         Path dest = Paths.get("/Users/cb-sudarshan/friday/Tempo");
         Path source = Paths.get("/Users/cb-sudarshan/Training/Temporary");
         moveFiles(source, dest, mapToMoveFiles);

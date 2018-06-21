@@ -7,65 +7,104 @@ package Day3_4;
 
 import java.io.*;
 import java.util.*;
+import org.apache.commons.lang3.*;
 
 /**
  *
  * @author cb-sudarshan
  */
 public class Ex2 {
+    
+    
+    public static BufferedWriter createWriter(String filePath) throws Exception{
+        FileWriter fileWriter = null;
+        fileWriter = new FileWriter(new File(filePath));
+        return new BufferedWriter(fileWriter);
+    }
 
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the filename");
-        String filename = sc.next();
+        //   /Users/cb-sudarshan/file.txt
+        String filename = "/Users/cb-sudarshan/file1.txt";
 
-        Map<String, Integer> mapToCountWords = new TreeMap<>();
+        Map<String, Integer> mapToCountWords = new HashMap<>();
 
-        File file = null;
+        File file =  new File(filename);
         FileReader fileReader = null;
-        FileWriter fileWriter = null;
-        BufferedWriter buffWriter = null;
-        BufferedReader buffReader = null;
 
         try {
 
-            file = new File(filename);
             fileReader = new FileReader(file);
-            fileWriter = new FileWriter(new File("/Users/cb-sudarshan/fileCopy.txt"));
-            buffWriter = new BufferedWriter(fileWriter);
-            buffReader = new BufferedReader(fileReader);
 
-        } catch (IOException e) {
-            
+        } catch (FileNotFoundException e) {
+
             System.err.println(e);
             System.exit(0);
-            
-        }
-        if (!file.isFile()) {
-
-            System.err.println("Input a valid text file");
-            System.exit(0);
 
         }
 
-        Scanner sc1 = new Scanner(file);
+        BufferedWriter buffWriter = createWriter("/Users/cb-sudarshan/fileCopy.txt");
+        BufferedReader buffReader = new BufferedReader(fileReader);
+        Scanner scanner = new Scanner(file);
         String word = null;
+        //yyyy-MM-dd HH:mm:ss.ssss
+        while (scanner.hasNext()) {
 
-        while (sc1.hasNext()) {
+            word = scanner.next();
+            StringBuilder sb = null;
+//            int count = StringUtils.countMatches("hello", "l");
 
-            word = sc1.next().replaceAll("[^A-Za-z0-9]", "");
+            
+            String[] temp = word.split("[!?()\"]");
+            for (String string : temp) {
+                if(string.isEmpty()){
+                    continue;
+                }
+                sb = new StringBuilder(string);
+//                sb.trimToSize(); why is this needed?
+                //move url and emails outside the while loop
+                if(sb.toString().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"/*regex for email*/)){
+                    System.out.println(sb.toString());
+                    continue;
+                }
+                String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&?.@#/%=~_|]";
+                String urlRegex1 = "(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?";
+                if(sb.toString().matches(urlRegex)){
+                    System.out.println(sb.toString());
+                    continue;
+                }
+//                if (sb.length() != 0) { Why is this needed
+                    //System.out.println(sb.toString());
+                if (sb.charAt(string.length() - 1) == ',' || sb.charAt(string.length() - 1) == '.') {
+                    sb.deleteCharAt(string.length() - 1);
+//                        sb.trimToSize(); //why???
+                }
+                if (sb.length() != 0) {
+                    if (sb.charAt(0) == ',' || sb.charAt(0) == '.') {//What is the case here?
+                        System.out.println("comma at the start: " + sb);
+                        sb.deleteCharAt(0);
+//                            sb.trimToSize(); //why?
+                    }
 
-            if (mapToCountWords.containsKey(word.toUpperCase())) {
+                }
+                if (sb.length() != 0) {
+                    System.out.println(sb.toString().toUpperCase());
+                }
+//                }
 
-                mapToCountWords.put(word.toUpperCase(), mapToCountWords.get(word.toUpperCase()) + 1);
+            }
+
+            if (mapToCountWords.containsKey(sb.toString().toUpperCase())) {
+
+                mapToCountWords.put(sb.toString().toUpperCase(), mapToCountWords.get(sb.toString().toUpperCase()) + 1);
 
             } else {
 
-                mapToCountWords.put(word.toUpperCase(), 1);
+                mapToCountWords.put(sb.toString().toUpperCase(), 1);
 
             }
-            System.out.println(word);
+            //System.out.println(word + ": " + mapToCountWords.get(word.toUpperCase()));
         }
 
         Set<String> keys = mapToCountWords.keySet();
@@ -75,9 +114,9 @@ public class Ex2 {
             buffWriter.write(key + " : " + mapToCountWords.get(key) + "\n");
 
         }
-        
+
         buffWriter.close();
-        fileWriter.close();
+//        fileWriter.close();
         buffReader.close();
         fileReader.close();
     }
