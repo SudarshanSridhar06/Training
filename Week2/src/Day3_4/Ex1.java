@@ -39,7 +39,7 @@ public class Ex1 {
 
             if (file.isFile() && !file.isHidden()) {
 
-                String fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1); //this wont work for 1.asdf.txt
+                String fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1); 
                 int temp = 1;
 
                 if (mapToCountFileExtensions.containsKey(fileExtension)) {
@@ -87,8 +87,6 @@ public class Ex1 {
 
                 if (mapToMoveFiles.containsKey(destFilename)) {
 
-                    //dest += filename + "-" + mapToMoveFiles.get(filename) + "." + fileExtension;
-                    //destbuilder.append(filename + "-" + mapToMoveFiles.get(filename) + "." + fileExtension);
                     destbuilder.append(destFilename);
                     destbuilder.append("-");
                     destbuilder.append(mapToMoveFiles.get(destFilename));
