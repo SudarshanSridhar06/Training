@@ -39,6 +39,19 @@ public class Ex5 {
         csvWriter.flush();
     }
 
+    private static void checkAndAddPhone(List<Phone> phoneListOfPerson, CSVRecord record) {
+        checkAndAddPhone("Mobile",phoneListOfPerson, record);
+        checkAndAddPhone("Work",phoneListOfPerson, record);
+        checkAndAddPhone("Home",phoneListOfPerson, record);
+        
+    }
+    
+    private static void checkAndAddPhone(String phoneType, List<Phone> phoneListOfPerson, CSVRecord record){
+        if (!record.get(phoneType).equals("")) {
+            phoneListOfPerson.add(new Phone(record.get(phoneType), phoneType.toUpperCase()));
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         createCsvFile();
 
@@ -69,15 +82,7 @@ public class Ex5 {
                 personRecord.get("City"), personRecord.get("State"), Integer.parseInt(personRecord.get("Pincode")));
             List<Phone> phoneListOfPerson = new ArrayList<>();
             
-            if(!personRecord.get("Mobile").equals("")){
-                phoneListOfPerson.add(new Phone(personRecord.get("Mobile"), "MOBILE"));
-            }
-            if(!personRecord.get("Work").equals("")){
-                phoneListOfPerson.add(new Phone(personRecord.get("Work"), "WORK"));
-            }
-            if(!personRecord.get("Home").equals("")){
-                phoneListOfPerson.add(new Phone(personRecord.get("Home"), "HOME"));
-            }
+            checkAndAddPhone(phoneListOfPerson, personRecord);
             
             if(mapOfPersons.get(personName.toUpperCase()) != null){
                 List<Person> tempList= mapOfPersons.get(personName.toUpperCase());

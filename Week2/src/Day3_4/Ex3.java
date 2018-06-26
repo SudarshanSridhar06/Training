@@ -6,7 +6,9 @@
 package Day3_4;
 
 import java.io.*;
+import java.util.regex.*;
 import java.util.*;
+import static ReaderWriter.Creator.*;
 
 /**
  *
@@ -14,73 +16,71 @@ import java.util.*;
  */
 public class Ex3 {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("File name..");
-        //   /Users/cb-sudarshan/file.txt
-        String sourceFilename = scanner.next();
-
-        File sourceFile = new File(sourceFilename);
-        FileReader fileReader = null;
-        FileWriter fileWriter = null;
+        String sourceFilename = "/Users/cb-sudarshan/file.txt";
         BufferedWriter buffWriter = null;
         BufferedReader buffReader = null;
 
         try {
-            
-            fileReader = new FileReader(sourceFile);
-            
+
+             buffReader = createReader(sourceFilename);
 
         } catch (FileNotFoundException e) {
-            
+
             System.err.println(e);
             System.exit(0);
-            
+
         }
-        
+
         System.out.println("SearchWord..");
-        String searchWord = scanner.next().toUpperCase();
-        File targetFile = new File("/Users/cb-sudarshan/" + searchWord + ".locations.txt");
-        
-        try{
-            
-            fileWriter = new FileWriter(targetFile);
-            
+        String searchWord = scanner.next();
+        StringBuilder searchWordBuilder = new StringBuilder("\\b");
+        searchWordBuilder.append(searchWord).append("\\b");
+        File targetFile = new File("/Users/cb-sudarshan/" + searchWord.toLowerCase() + ".locations.txt");
+
+        try {
+
+             buffWriter = createWriter("/Users/cb-sudarshan/" + searchWord.toLowerCase() + ".locations.txt");
+
         } catch (IOException e) {
-            
+
             System.err.println(e);
             System.exit(0);
-            
+
         }
-        
-        buffWriter = new BufferedWriter(fileWriter);
-        buffReader = new BufferedReader(fileReader);
-        
+
         String textLine = buffReader.readLine();
         int linecount = 1;
         boolean found = false;
 
         while (textLine != null) {
-            textLine = textLine.toUpperCase();
-            if (textLine.contains(searchWord)) {
-
+            
+            boolean first = true;
+            textLine = String.join(" ", textLine.split("[!?()\"]")).replaceAll(" +", " ");
+            //System.out.println(textLine);
+            StringBuilder writeToFile = new StringBuilder("");
+            
+            Pattern pattern = Pattern.compile(searchWordBuilder.toString(), Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(textLine);
+            
+            while (matcher.find()) {
+                
                 found = true;
-                StringBuilder writeToFile = new StringBuilder("");
-                writeToFile.append(linecount);
-                writeToFile.append(" : ");
-
-                while (textLine.contains(searchWord)) {
-
-                    writeToFile.append(textLine.indexOf(searchWord));
-                    writeToFile.append(",");
-                    textLine = textLine.replaceFirst(searchWord, "");
-
+                if (first) {
+                    writeToFile.append(linecount);
+                    writeToFile.append(" : ");
+                    first = false;
                 }
-
+                writeToFile.append(matcher.start());
+                writeToFile.append(",");
+                
+            }
+            
+            if (writeToFile.length() != 0) {
                 writeToFile.setCharAt(writeToFile.length() - 1, '.');
                 buffWriter.write(writeToFile.toString() + "\n");
-
             }
 
             linecount++;
@@ -94,9 +94,7 @@ public class Ex3 {
         }
 
         buffWriter.close();
-        fileWriter.close();
         buffReader.close();
-        fileReader.close();
     }
 
 }

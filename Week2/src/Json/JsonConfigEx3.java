@@ -7,21 +7,17 @@ package Json;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.text.*;
 import java.util.*;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.apache.commons.csv.*;
+import org.json.*;
 
 /**
  *
  * @author cb-sudarshan
  */
+
 public class JsonConfigEx3 {
 
     public static void main(String[] args) throws ParseException, IOException, JSONException {
@@ -58,6 +54,7 @@ public class JsonConfigEx3 {
             Map<String, String> EachRecordMap = record.toMap();
 
             Iterator jsonKeyIterator = jsonObject.keys();
+            
             while (jsonKeyIterator.hasNext()) { //for every key in json
 
                 String key = (String) jsonKeyIterator.next();
@@ -65,6 +62,7 @@ public class JsonConfigEx3 {
                 String type = (String) keyObj.get("Type");
                 //modify and update in EachRecordMap
                 switch (type) {
+                    
                     case "Date":
                         String strdate = EachRecordMap.get(key);
                         DateFormat originalFormat = new SimpleDateFormat(keyObj.getString("InputTimeStamp"));
@@ -73,6 +71,7 @@ public class JsonConfigEx3 {
                         String formattedDate = targetFormat.format(date);
                         EachRecordMap.put(key, formattedDate);
                         break;
+                        
                     case "Number":
                         Double csvValue = Double.valueOf(EachRecordMap.get(key));
                         if (keyObj.get("Operator").equals("+")) {
@@ -86,6 +85,7 @@ public class JsonConfigEx3 {
                         }
                         EachRecordMap.put(key, Double.toString(csvValue));
                         break;
+                        
                     case "Modify":
                         
                         JSONArray removeFields = keyObj.getJSONArray("Remove Fields");
@@ -94,13 +94,16 @@ public class JsonConfigEx3 {
                         customerDetails.append("{");
                         //removing the specified fields and appending them as one
                         for (int i = 0; i < removeFields.length(); i++) {
+                            
                             headerMap.remove((String) removeFields.get(i));
                             customerDetails.append("\"");
                             customerDetails.append((String) fieldNames.get(i));
                             customerDetails.append("\" : \"");
                             customerDetails.append(record.get((String) removeFields.get(i)));
                             customerDetails.append("\"");
+                            
                         }
+                        
                         customerDetails.setCharAt(customerDetails.length() - 1, '}');
                         headerMap.put(key, 14);
                         String[] csvHeaders = headerMap.keySet().toArray(new String[0]);
@@ -118,11 +121,11 @@ public class JsonConfigEx3 {
             int temp = 0;
 
             String[] updatedRecord = new String[keyset.size()];
+            
             for (String Key : keyset) {
                 updatedRecord[temp++] = EachRecordMap.get(Key);
-                //System.out.println(Key + "  " + EachRecordMap.get(Key));
             }
-            //System.out.println(String.join(",", updatedRecord));
+            
             csvWriter.append(String.join(",", updatedRecord));
             csvWriter.append("\n");
         }

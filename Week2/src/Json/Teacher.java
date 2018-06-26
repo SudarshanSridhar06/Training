@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class Teacher {
     
     private String name;
-    private String date;
+    private String joiningDate;
     private long salary;
     private String id;
     private String[] handlingClasses;
@@ -33,11 +33,11 @@ public class Teacher {
     }
 
     public String getDate() {
-        return date;
+        return joiningDate;
     }
 
     public Teacher setDate(String date) {
-        this.date = date;
+        this.joiningDate = date;
         return this;
     }
 

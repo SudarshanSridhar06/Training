@@ -25,7 +25,7 @@ public class Ex4 {
         List<List<String>> customerDetailsListToAddInMap = null;
 
         FileWriter csvWriter = null;
-        int temp = 0;
+        boolean isHeader = true;
 
         int[] check_column = {0, 1, 12, 13, 14};
 
@@ -38,6 +38,7 @@ public class Ex4 {
 
             System.err.println(e);
             System.exit(0);
+            
         } catch (IOException e) {
             System.err.println(e);
             System.exit(0);
@@ -47,14 +48,13 @@ public class Ex4 {
 
         while ((row = csvReader.readNext()) != null) {
 
-            customer_recordNew = new ArrayList<>();
-            customerDetailsListToAddInMap = new ArrayList<>();
             customer_recordNew = Arrays.asList(row);
+            customerDetailsListToAddInMap = new ArrayList<>();
 
-            if (temp == 0) {
+            if (isHeader) {
                 csvWriter.append(String.join(",", customer_recordNew));
                 csvWriter.append("\n");
-                temp++;
+                isHeader = false;
                 continue;
             }
 

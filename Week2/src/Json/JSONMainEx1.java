@@ -23,7 +23,7 @@ public class JSONMainEx1 {
         String JSONtext = "";
         Student student = new Student();
         Teacher teacher = new Teacher();
-        Mark[] studentMarks = new Mark[5];
+        Mark[] studentMarks = new Mark[6];//
         String[] handlingClassOfTeacher = null;
         
         try {
@@ -50,22 +50,20 @@ public class JSONMainEx1 {
         
         JSONArray studentmarksJsonArray = jsonStudentObj.getJSONArray("Marks");
         JSONArray teacherHandlingClassJsonArray = jsonTeacherObj.getJSONArray("Classes Taking Care Of");
-        
         handlingClassOfTeacher = new String[teacherHandlingClassJsonArray.length()];
-
         for(int i = 0; i < teacherHandlingClassJsonArray.length(); i++){
-            
-            handlingClassOfTeacher[i] =  (String)(teacherHandlingClassJsonArray.get(i));
-
+            handlingClassOfTeacher[i] = (String) (teacherHandlingClassJsonArray.get(i));
         }
-        
-        for(int i = 0; i < studentmarksJsonArray.length(); i++){
-            
+
+        for (int i = 0; i < studentmarksJsonArray.length(); i++) {
+
             JSONObject tempMarkObj = studentmarksJsonArray.getJSONObject(i);
-            int tempmark = tempMarkObj.getInt("Mark");
-            String tempsubject = tempMarkObj.getString("Subject").replaceAll(" ", "").toUpperCase();
-            studentMarks[i] = new Mark(tempsubject, tempmark);
-            
+            Integer tempmark = tempMarkObj.optInt("Mark");
+            String tempsubject = tempMarkObj.optString("Subject").replaceAll(" ", "").toUpperCase();
+            if (tempmark != null) {
+                studentMarks[i] = new Mark(tempsubject, tempmark);
+            }
+
         }
         
         student.setMarks(studentMarks).setName(jsonStudentObj.getString("Name"))
